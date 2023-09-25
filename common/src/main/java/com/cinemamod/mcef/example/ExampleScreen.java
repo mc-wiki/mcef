@@ -101,6 +101,58 @@ public class ExampleScreen extends Screen {
         buffer.vertex(width - BROWSER_DRAW_OFFSET, BROWSER_DRAW_OFFSET, 0).uv(1.0f, 0.0f).color(255, 255, 255, 255).endVertex();
         buffer.vertex(BROWSER_DRAW_OFFSET, BROWSER_DRAW_OFFSET, 0).uv(0.0f, 0.0f).color(255, 255, 255, 255).endVertex();
         t.end();
+        
+        
+        int fontHeight = font.lineHeight + 4;
+        
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        buffer = t.getBuilder();
+        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+        
+        int contextWidth = 135;
+        int contextHeight = 91;
+        
+        buffer.vertex(BROWSER_DRAW_OFFSET, contextHeight - BROWSER_DRAW_OFFSET, 0).color(128, 128, 128, 255).endVertex();
+        buffer.vertex(contextWidth - BROWSER_DRAW_OFFSET, contextHeight - BROWSER_DRAW_OFFSET, 0).color(128, 128, 128, 255).endVertex();
+        buffer.vertex(contextWidth - BROWSER_DRAW_OFFSET, BROWSER_DRAW_OFFSET, 0).color(128, 128, 128, 255).endVertex();
+        buffer.vertex(BROWSER_DRAW_OFFSET, BROWSER_DRAW_OFFSET, 0).color(128, 128, 128, 255).endVertex();
+        
+        int pad = 2;
+        
+        buffer.vertex(BROWSER_DRAW_OFFSET + pad, contextHeight - BROWSER_DRAW_OFFSET - pad, 0).color(255, 255, 255, 255).endVertex();
+        buffer.vertex(contextWidth - BROWSER_DRAW_OFFSET - pad, contextHeight - BROWSER_DRAW_OFFSET - pad, 0).color(255, 255, 255, 255).endVertex();
+        buffer.vertex(contextWidth - BROWSER_DRAW_OFFSET - pad, BROWSER_DRAW_OFFSET + pad, 0).color(255, 255, 255, 255).endVertex();
+        buffer.vertex(BROWSER_DRAW_OFFSET + pad, BROWSER_DRAW_OFFSET + pad, 0).color(255, 255, 255, 255).endVertex();
+        
+        // draw separators
+        buffer.vertex(BROWSER_DRAW_OFFSET + pad, BROWSER_DRAW_OFFSET + fontHeight * 2, 0).color(128, 128, 128, 255).endVertex();
+        buffer.vertex(contextWidth - BROWSER_DRAW_OFFSET - pad, BROWSER_DRAW_OFFSET + fontHeight * 2, 0).color(128, 128, 128, 255).endVertex();
+        buffer.vertex(contextWidth - BROWSER_DRAW_OFFSET - pad, BROWSER_DRAW_OFFSET + fontHeight * 2 - 3, 0).color(128, 128, 128, 255).endVertex();
+        buffer.vertex(BROWSER_DRAW_OFFSET + pad, BROWSER_DRAW_OFFSET + fontHeight * 2 - 3, 0).color(128, 128, 128, 255).endVertex();
+        
+        t.end();
+        
+        guiGraphics.drawString(
+                font,
+                "Save Page As", BROWSER_DRAW_OFFSET + 4, BROWSER_DRAW_OFFSET + 4,
+                4210752, false
+        );
+        guiGraphics.drawString(
+                font,
+                "Select All", BROWSER_DRAW_OFFSET + 4, BROWSER_DRAW_OFFSET + fontHeight,
+                4210752, false
+        );
+        guiGraphics.drawString(
+                font,
+                "View Page Source", BROWSER_DRAW_OFFSET + 4, BROWSER_DRAW_OFFSET + fontHeight + 2 + fontHeight,
+                4210752, false
+        );
+        guiGraphics.drawString(
+                font,
+                "Inspect", BROWSER_DRAW_OFFSET + 4, BROWSER_DRAW_OFFSET + fontHeight + 2 + fontHeight * 2 - 2,
+                4210752, false
+        );
+        
         RenderSystem.setShaderTexture(0, 0);
         RenderSystem.enableDepthTest();
     }
