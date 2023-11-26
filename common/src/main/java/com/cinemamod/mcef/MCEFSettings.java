@@ -153,6 +153,7 @@ public class MCEFSettings {
             userAgent = properties.getProperty("user-agent");
             gpuDisabled = Boolean.parseBoolean(properties.getProperty("disable-gpu"));
             additionalSwitches = properties.getProperty("additional-switches");
+            if (additionalSwitches == null) additionalSwitches = "--enable-widevine-cdm";
         } catch (Exception e) {
             // Delete and re-create the file if there was a parsing error
             if (deleteRetries++ > 20)

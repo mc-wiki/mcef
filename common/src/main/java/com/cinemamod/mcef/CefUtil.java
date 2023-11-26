@@ -80,7 +80,7 @@ final class CefUtil {
                 // https://www.magpcss.org/ceforum/viewtopic.php?f=6&t=12029
                 "--off-screen-rendering-enabled"
         };
-        List<String> switches = Arrays.asList(cefSwitches);
+        List<String> switches = new ArrayList<>(Arrays.asList(cefSwitches));
 
         // not 100% sure if this is necessary, but it's here incase it is
         // https://magpcss.org/ceforum/viewtopic.php?f=6&t=11672
