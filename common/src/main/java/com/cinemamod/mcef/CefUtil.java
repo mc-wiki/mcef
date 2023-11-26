@@ -28,9 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.PosixFilePermission;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class mostly just interacts with org.cef.* for internal use in {@link MCEF}
@@ -78,12 +76,20 @@ final class CefUtil {
         String[] cefSwitches = new String[]{
                 "--autoplay-policy=no-user-gesture-required",
                 "--disable-web-security",
-                "--enable-widevine-cdm" // https://canary.discord.com/channels/985588552735809696/992495232035868682/1151704612924039218
-                // TODO: should probably make this configurable
-                //       based off this page: https://magpcss.org/ceforum/viewtopic.php?f=6&t=11672
-                //       it seems the solution to the white screen is to add the "--disable-gpu" switch
-                //       but that shouldn't be done on all devices, so either we need to figure out a pattern and setup code to add the switch based off that, or add it as a config, if that is the case
+                // doesn't hurt to ensure that the thing required for the mod to function is enabled, does it?
+                // https://www.magpcss.org/ceforum/viewtopic.php?f=6&t=12029
+                "--off-screen-rendering-enabled"
         };
+        List<String> switches = Arrays.asList(cefSwitches);
+
+        // not 100% sure if this is necessary, but it's here incase it is
+        // https://magpcss.org/ceforum/viewtopic.php?f=6&t=11672
+        // definitely redundant due to the additionalSwitches option, but I feel like it'd be easier to tell someone to switch a "false" to a "true", than to add a ",---disable-gpu"
+        if (MCEF.getSettings().isGpuDisabled())
+            switches.add("--disable-gpu");
+        switches.addAll(Arrays.asList(MCEF.getSettings().getAdditionalSwitches().split(",")));
+
+        cefSwitches = switches.toArray(new String[0]);
 
         if (!CefApp.startup(cefSwitches)) {
             return false;

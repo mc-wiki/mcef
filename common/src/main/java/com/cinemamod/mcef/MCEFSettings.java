@@ -41,6 +41,15 @@ public class MCEFSettings {
     private boolean skipDownload;
     private String downloadMirror;
     private String userAgent;
+    private boolean gpuDisabled;
+    // default switches:
+    // TODO: add in "--disable-frame-rate-limit"
+    //       reason this is not a default yet: mcef does not like running at 500 fps, and will end up looking like it's running at ~20 fps instead
+    //       30 fps looks better for the sites where this happens, which seems to be pretty much any site that does special rendering
+    //       will be added in once "CefBrowserHost::SetWindowlessFrameRate" is exposed, and a default of 60 is implemented
+    //       preferably, this update is released at the same time as our JCEF fork gets an update exposing that
+    // widevine-cdm: https://canary.discord.com/channels/985588552735809696/992495232035868682/1151704612924039218
+    private String additionalSwitches = "--enable-widevine-cdm";
 
     public MCEFSettings() {
         skipDownload = false;
@@ -75,6 +84,24 @@ public class MCEFSettings {
         saveAsync();
     }
 
+    public boolean isGpuDisabled() {
+        return gpuDisabled;
+    }
+
+    public void setGpuDisabled(boolean gpuDisabled) {
+        this.gpuDisabled = gpuDisabled;
+        saveAsync();
+    }
+
+    public String getAdditionalSwitches() {
+        return additionalSwitches;
+    }
+
+    public void setAdditionalSwitches(String additionalSwitches) {
+        this.additionalSwitches = additionalSwitches;
+        saveAsync();
+    }
+
     public void saveAsync() {
         CompletableFuture.runAsync(() -> {
             try {
@@ -98,6 +125,9 @@ public class MCEFSettings {
         properties.setProperty("skip-download", String.valueOf(skipDownload));
         properties.setProperty("download-mirror", String.valueOf(downloadMirror));
         properties.setProperty("user-agent", String.valueOf(userAgent));
+        // cef switch configuration
+        properties.setProperty("disable-gpu", String.valueOf(gpuDisabled));
+        properties.setProperty("additional-switches", additionalSwitches);
 
         try (FileOutputStream output = new FileOutputStream(file)) {
             properties.store(output, null);
@@ -121,6 +151,8 @@ public class MCEFSettings {
             skipDownload = Boolean.parseBoolean(properties.getProperty("skip-download"));
             downloadMirror = properties.getProperty("download-mirror");
             userAgent = properties.getProperty("user-agent");
+            gpuDisabled = Boolean.parseBoolean(properties.getProperty("disable-gpu"));
+            additionalSwitches = properties.getProperty("additional-switches");
         } catch (Exception e) {
             // Delete and re-create the file if there was a parsing error
             if (deleteRetries++ > 20)
