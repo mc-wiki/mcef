@@ -82,11 +82,6 @@ final class CefUtil {
         };
         List<String> switches = new ArrayList<>(Arrays.asList(cefSwitches));
 
-        // not 100% sure if this is necessary, but it's here incase it is
-        // https://magpcss.org/ceforum/viewtopic.php?f=6&t=11672
-        // definitely redundant due to the additionalSwitches option, but I feel like it'd be easier to tell someone to switch a "false" to a "true", than to add a ",---disable-gpu"
-        if (MCEF.getSettings().isGpuDisabled())
-            switches.add("--disable-gpu");
         switches.addAll(Arrays.asList(MCEF.getSettings().getAdditionalSwitches().split(",")));
 
         cefSwitches = switches.toArray(new String[0]);
