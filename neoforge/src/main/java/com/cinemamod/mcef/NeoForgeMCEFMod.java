@@ -22,35 +22,38 @@ package com.cinemamod.mcef;
 
 import com.cinemamod.mcef.example.MCEFExampleMod;
 import com.mojang.logging.LogUtils;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
+import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.common.NeoForge;
 import org.slf4j.Logger;
 
-@Mod(ForgeMCEFMod.MODID)
-public class ForgeMCEFMod {
+@Mod(NeoForgeMCEFMod.MODID)
+public class NeoForgeMCEFMod {
     public static final String MODID = "mcef";
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public ForgeMCEFMod() {
+    public NeoForgeMCEFMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         modEventBus.addListener(this::clientSetup);
         modEventBus.addListener(this::serverSetup);
 
-        MinecraftForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(this);
     }
 
+    @SubscribeEvent
     private void clientSetup(final FMLClientSetupEvent event) {
         if (!FMLEnvironment.production) {
             new MCEFExampleMod();
         }
     }
 
+    @SubscribeEvent
     private void serverSetup(final FMLDedicatedServerSetupEvent event) {
         // MCEF server-side does nothing
     }

@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
 public class CefRenderUpdateMixin {
-    @Inject(at = @At("HEAD"), method = "render")
+    @Inject(at = @At("HEAD"), method = "render", remap = false)
     public void preRender(float partialTicks, long nanoTime, boolean renderLevel, CallbackInfo ci) {
         if (MCEF.isInitialized()) {
             MCEF.getApp().getHandle().N_DoMessageLoopWork();

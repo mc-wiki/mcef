@@ -18,7 +18,7 @@ public abstract class CefInitMixin {
     @Shadow
     public abstract void setScreen(@Nullable Screen guiScreen);
 
-    @Inject(at = @At("HEAD"), method = "setScreen", cancellable = true)
+    @Inject(at = @At("HEAD"), method = "setScreen", cancellable = true, remap = false)
     public void redirScreen(Screen guiScreen, CallbackInfo ci) {
         if (!MCEF.isInitialized()) {
             if (guiScreen instanceof TitleScreen) {

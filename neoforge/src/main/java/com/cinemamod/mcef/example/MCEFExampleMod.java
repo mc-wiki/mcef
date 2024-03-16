@@ -24,8 +24,8 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.TickEvent;
 import org.lwjgl.glfw.GLFW;
 
 public class MCEFExampleMod {
@@ -37,7 +37,7 @@ public class MCEFExampleMod {
     );
 
     public MCEFExampleMod() {
-        MinecraftForge.EVENT_BUS.addListener(this::onTick);
+        NeoForge.EVENT_BUS.addListener(this::onTick);
     }
 
     public void onTick(TickEvent.ClientTickEvent event) {
