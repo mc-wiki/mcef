@@ -84,6 +84,7 @@ processResources {
                 'mod_version': mod_version,
                 'mod_name': mod_name,
                 'neoforge_version': neoforge_version,
+                'loader_version': loader_version,
                 'neoforge_dependency': 'neoforge_dependency',
                 'minecraft_version': minecraft_version
     }

@@ -25,7 +25,7 @@ Current Chromium version: `116.0.5845.190`
 ## For Players
 This is the source code for MCEF.
 
-Download the mod for Fabric or Neoforge on either:
+Download the mod for Fabric or NeoForge on either:
 - CurseForge: https://www.curseforge.com/minecraft/mc-mods/mcef
 - Modrinth: https://modrinth.com/mod/mcef
 
